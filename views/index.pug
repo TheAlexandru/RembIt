@@ -1,8 +1,12 @@
 extends layout
 
 block content
-	h1 #{title}
-	ul.list-group
-		each article, i in articles
-			li.list-group-item
-				a(href=`/articles/${article._id}`)=  article.title
+	h2 #{title}
+	if user
+			ul.list-group
+				each article, i in articles
+					if user._id == article.author
+						li.list-group-item
+							a(href=`/articles/${article._id}`)=  article.title
+	else 
+		div.alert.alert-info Login to see your saved Ideas

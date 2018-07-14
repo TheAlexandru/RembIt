@@ -5,7 +5,10 @@ const bodyParser = require('body-parser');
 const expressValidator = require('express-validator');
 const flash= require('connect-flash');
 const session = require('express-session');
-mongoose.connect('mongodb://localhost/nodekb');
+const passport =require('passport');
+const config = require('./config/database.js');
+
+mongoose.connect(config.database);
 let db = mongoose.connection;
 
 //check db connection
@@ -24,6 +27,7 @@ const app = express();
 //Bring in Modules
 
 let Article = require('./models/article.js');
+
 
 
 //Lod view engine
@@ -74,6 +78,20 @@ app.use(expressValidator({
 	}
 }));
 
+//Pasport Config
+require('./config/passport')(passport);
+//Passport Middleware
+app.use(passport.initialize());
+app.use(passport.session());
+
+app.get('*',(req,res,next)=>{
+	res.locals.user = req.user || null;
+	next();
+});
+
+
+
+
 //Home route
 app.get('/',(req,res)=>{
 	Article.find( {}, (err,articles)=>{ // {} empty is for find all articles
@@ -81,7 +99,7 @@ app.get('/',(req,res)=>{
 			console.log(err) 
 		}else{
 			res.render('index',{
-				title:'hello',
+				title:"Don't forget your Ideas",
 				articles: articles
 			});
 		}
@@ -94,6 +112,8 @@ app.get('/',(req,res)=>{
 //Router Files
 let articles = require('./routes/articles.js');
 app.use('/articles', articles);
+let users = require('./routes/users.js');
+app.use('/user', users);
 
 
 //start server

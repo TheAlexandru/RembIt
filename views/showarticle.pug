@@ -2,8 +2,9 @@ extends layout
 
 block content
 	h1= article_data.title 
-	h5 Written by #{article_data.author}
+	h5 Written by #{author_name}
 	p= article_data.body
-	hr
-	a.btn.btn-secondary(href=`/articles/edit/${article_data._id}`) Edit
-	a.btn.btn-danger.delete-article(href=`#`, data-id=article_data._id) Delete
+	if user
+		if user.id == article_data.author
+			a.btn.btn-secondary(href=`/articles/edit/${article_data._id}`) Edit
+			a.btn.btn-danger.delete-article(href=`#`, data-id=article_data._id) Delete

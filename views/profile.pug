@@ -1,0 +1,13 @@
+extends layout
+
+block content
+	h2 Profile
+	ul.list-group
+		li.list-group-item
+			span Name : #{user.name}
+		li.list-group-item
+			span Username : #{user.username}
+		li.list-group-item
+			span ID : #{user._id}
+		li.list-group-item
+			span Email : #{user.email}

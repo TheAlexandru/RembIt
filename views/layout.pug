@@ -15,8 +15,20 @@ html
 						a.nav-link(href='/')
 							| Home 
 							span.sr-only (current)
-					li.nav-item
-						a.nav-link(href='/articles/add') New article
+					if user
+						li.nav-item
+							a.nav-link(href='/articles/add') New idea
+				ul.navbar-nav.ml-auto
+					if user 
+						li.nav-item
+							a.nav-link(href=`/user/profile/${user._id}`) #{user.username}
+						li.nav-item
+							a.nav-link(href='/user/logout') Logout
+					else
+						li.nav-item
+							a.nav-link(href='/user/register') Register
+						li.nav-item
+							a.nav-link(href='/user/login') Login
 					
 				
 					
@@ -28,10 +40,10 @@ html
 
 					div(class='alert alert-danger') #{error.msg}
 			block content
-			br
+			
 			hr
 			footer
-				p Copyright &copy; 2018
+				p Copyright &copy; Artin 2018
 
 		script(src='/bower_componets/jquery/dist/jquery.js')
 		script(src='/bower_componets/bootstrap/dist/js/bootstrap.js')
